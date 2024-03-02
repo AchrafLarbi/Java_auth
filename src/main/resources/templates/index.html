@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Index Page</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style2.css">
+</head>
+
+<body>
+	<div class ="container d-flex justify-content-center align-items-center ">
+
+	<div class="col-md-6 rounded-5 d-flex right-box justify-content-center align-items-center flex-column center-div "
+		style="background: #103cbe; ">
+		<div class="featured-image mb-3">
+			<img src="" th:src="@{image/1.png}" class="img-fluid" style="width: 250px;">
+		</div>
+		<p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Welcome to
+			Our Website!</p>
+		<small class="text-white text-wrap text-center"
+			style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Join experienced on this
+			platform.</small>
+		<div class=" right-box">
+			<a th:href="@{/signin}">Login</a> 
+		</div>
+		<div class=" right-box">
+			<a th:href="@{/register}">Register</a> 
+		</div>
+		
+	</div>
+</div>
+
+</body>
+
+</html>
