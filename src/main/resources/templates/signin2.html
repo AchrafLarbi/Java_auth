@@ -29,16 +29,20 @@
 
         
        <div class="col-md-6 right-box">
+        <div th:if="${param.error}">
+            <div class="alert alert-danger">Invalid Email and Password.</div>
+            
+        </div>
           <form class="row align-items-center" th:action="@{/login}" th:object="${user}" method="post">
                 <div class="header-text mb-4">
                      <h2>Hello,Again</h2>
                      <p>We are happy to have you back.</p>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Email address" required>
+                    <input type="email" name="email" class="form-control form-control-lg bg-light fs-6" placeholder="Email address" required>
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" required minlength="6" maxlength="10">
+                    <input type="password" name="password" class="form-control form-control-lg bg-light fs-6" placeholder="Password" required minlength="6" maxlength="10">
                 </div>
                 <br>
                 <div class="input-group mb-3">

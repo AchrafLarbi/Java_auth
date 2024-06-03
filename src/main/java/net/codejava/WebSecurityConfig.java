@@ -9,50 +9,54 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig   {
-	
-	@Bean
-	UserDetailsService userDetailsService() {
-		return new CustomUserDetailsService();
-	}
+public class WebSecurityConfig implements WebMvcConfigurer {
 
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(userDetailsService());
-		authProvider.setPasswordEncoder(passwordEncoder());
-		
-		return authProvider;
-	}
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/uploads/**").addResourceLocations("file:C:/Users/asus/java_backend2/spring-boot3-registration-login/src/main/upload/");
+    }
 
-	@Bean
-	SecurityFilterChain configure(HttpSecurity http) throws Exception {
-		
-		http.authenticationProvider(authenticationProvider());
-		
-		http.authorizeHttpRequests(auth ->
-			auth.requestMatchers("/users").authenticated().anyRequest().permitAll()
-			)
-			.formLogin(login -> 
-				login.usernameParameter("email")
-				.loginPage("/signin")
-				.loginProcessingUrl("/login")
-				.defaultSuccessUrl("/users")
-				.permitAll()
-			)
-			.logout(logout -> logout.logoutSuccessUrl("/").permitAll()
-		);
-		
-		return http.build();
-	}
-	
-	
+    @Bean
+    UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService();
+    }
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    @Bean
+    SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        http.authenticationProvider(authenticationProvider())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/dashboard").authenticated()
+                .anyRequest().permitAll()
+            )
+            .formLogin(login -> login
+                .usernameParameter("email")
+                .loginPage("/signin")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/dashboard")
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutSuccessUrl("/")
+                .permitAll()
+            );
+        return http.build();
+    }
 }

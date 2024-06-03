@@ -12,7 +12,7 @@
 <div class="container">
     <div class="logout-form">
         <form th:action="@{/logout}" method="post">
-            <h2 class="welcome-heading">Welcome to Our Application</h2>
+            <h2 class="welcome-heading">Welcome to Our Application <span th:text="${#authentication.Principal.getFullName}"></span>! </h2>
             <input type="submit" class="btn btn-sign-out" value="Sign Out" />
         </form>
     </div>
